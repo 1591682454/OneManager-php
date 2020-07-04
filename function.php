@@ -1669,7 +1669,7 @@ function EnvOpt($needUpdate = 0)
             </td>
         </tr>';
         } elseif ($key=='theme') {
-            $theme_arr = scandir('theme');
+            $theme_arr = scandir(__DIR__.'/theme');
             $html .= '
         <tr>
             <td><label>' . $key . '</label></td>
@@ -1714,8 +1714,8 @@ function EnvOpt($needUpdate = 0)
     <form action="" method="post">
         <tr>
             <td colspan="2">'.$disktag.'：
-            <input type="hidden" name="disktag_del" value="'.$disktag.'">
-            <input type="submit" name="submit1" value="'.getconstStr('DelDisk').'">
+                <input type="hidden" name="disktag_del" value="'.$disktag.'">
+                <input type="submit" name="submit1" value="'.getconstStr('DelDisk').'">
             </td>
         </tr>
     </form>';
@@ -1733,6 +1733,11 @@ function EnvOpt($needUpdate = 0)
                 $html .= '
         <tr><td><input type="submit" name="submit1" value="'.getconstStr('Setup').'"></td></tr>
     </form>';
+            } else {
+                $html .= '
+    <tr>
+        <td colspan="2">Please add this disk again.</td>
+    </tr>';
             }
             $html .= '
 </table><br>';
@@ -1870,15 +1875,15 @@ function render_list($path = '', $files = '')
     }
     if ( $theme=='' ) {
         $theme = getConfig('theme');
-        if ( $theme=='' || !file_exists('theme/'.$theme) ) $theme = 'classic.html';
+        if ( $theme=='' || !file_exists(__DIR__.'/theme/'.$theme) ) $theme = 'classic.html';
     }
     if (substr($theme,-4)=='.php') {
         @ob_start();
         include 'theme/'.$theme;
         $html = ob_get_clean();
     } else {
-        if (file_exists('theme/'.$theme)) {
-            $file_path = 'theme/'.$theme;
+        if (file_exists(__DIR__.'/theme/'.$theme)) {
+            $file_path = __DIR__.'/theme/'.$theme;
             $html = file_get_contents($file_path);
         } else {
             if (!($html = getcache('customTheme'))) {
@@ -2654,7 +2659,7 @@ function render_list($path = '', $files = '')
     }
 
     if ($_SERVER['admin']||!getConfig('disableChangeTheme')) {
-        $theme_arr = scandir('theme');
+        $theme_arr = scandir(__DIR__.'/theme');
         $html .= '
 <div style="position: fixed;right: 10px;bottom: 10px;/*color: rgba(247,247,249,0);*/">
     <select name="theme" onchange="changetheme(this.options[this.options.selectedIndex].value)">
