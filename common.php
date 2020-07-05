@@ -2174,7 +2174,7 @@ function render_list($path = '', $files = '')
 
 
             //$html = str_replace('<!--constStr@File-->', getconstStr('File'), $html);
-        } elseif (isset($files['children'])) {
+        } elseif (isset($files['folder'])) {
             while (strpos($html, '<!--GuestUploadStart-->')) {
                 $tmp = splitfirst($html, '<!--GuestUploadStart-->');
                 $html = $tmp[0];
